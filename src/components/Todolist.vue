@@ -90,4 +90,16 @@ let allDone = computed({
   opacity: 0;
   transform: translateY(-60px);
 }
+.flip-list-move {
+  transition: transform 0.8s ease;
+}
+.flip-list-enter-active,
+.flip-list-leave-active {
+  transition: all 1s ease;
+}
+.flip-list-enter-from,
+.flip-list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
 </style>
