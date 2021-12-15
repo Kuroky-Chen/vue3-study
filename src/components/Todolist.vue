@@ -6,9 +6,10 @@
     <button v-if="active < all" @click="clear">清理</button>
     <ul v-if="todos.length">
       <transition-group name="flip-list" tag="ul">
-        <li v-for="(todo, i) in todos" :key="i">
+        <li v-for="(todo, i) in todos" :key="todo.title">
           <input type="checkbox" v-model="todo.done" />
           <span :class="{ done: todo.done }">{{ todo.title }}</span>
+          <span class="remove-btn" @click="removeTodo($event, i)">❌</span>
         </li>
       </transition-group>
     </ul>
@@ -19,21 +20,54 @@
       <span>{{ active }} / {{ all }}</span>
     </div>
   </div>
-  <!-- 优化代码 -->
+  <!-- 动画代码 -->
   <transition name="modal">
     <div class="info-wrapper" v-if="showModal">
       <div class="info">请输入学习计划</div>
     </div>
   </transition>
+
+  <span class="dustbin">🗑</span>
+  <div class="animate-wrap">
+    <transition @before-enter="beforeEnter" @enter='enter' @after-enter='afterEnter'>
+      <div class="animate" v-show="animate.show">📋</div>
+    </transition>
+  </div>
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, reactive } from "vue";
 
 // 清单代码
 let title = ref("");
 let todos = ref([{ title: '学习Vue', done: false }])
 let showModal = ref(false)
+let animate = reactive({
+  show: false,
+  el: null
+})
+
+function beforeEnter(el) {
+  debugger
+  let dom = animate.el
+  let rect = dom.getBoundingClientRect()
+  let x = window.innerWidth - rect.left - 60
+  let y = rect.top - 10
+  el.style.transform = `translate(-${x}px, ${y}px)`
+}
+
+function enter(el, done) {
+  debugger
+  document.body.offsetHeight
+  el.style.transfrom = `translate(0, 0)`
+  el.addEventListener('transitioned', done)
+}
+
+function afterEnter(el) {
+  debugger
+  animate.show = false
+  el.style.display = 'none'
+}
 
 function addTodo() {
   if (!title.value) {
@@ -65,6 +99,13 @@ let allDone = computed({
   },
 });
 
+// 删除一行
+function removeTodo(e, i) {
+  debugger
+  animate.el = e.target
+  animate.show = true
+  todos.value.splice(i, 1)
+}
 
 </script>
 
@@ -101,5 +142,12 @@ let allDone = computed({
 .flip-list-leave-to {
   opacity: 0;
   transform: translateX(30px);
+}
+.animate-wrap .animate {
+  position: fixed;
+  right: 10px;
+  top: 10px;
+  z-index: 100;
+  transition: all 0.5s linear;
 }
 </style>
