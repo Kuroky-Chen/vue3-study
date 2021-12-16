@@ -29,7 +29,7 @@
   </transition>
 
   <div class="animate-wrap">
-    <transition @before-enter="beforeEnter" @enter='enter' @after-enter='afterEnter'>
+    <transition @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter">
       <div class="animate" v-show="animate.show">📋</div>
     </transition>
   </div>
@@ -56,12 +56,12 @@ function beforeEnter(el) {
 }
 
 function enter(el, done) {
-  el.style.transfrom = `translate(0px, 0px)`
+  document.body.offsetHeight
+  el.style.transform = `translate(0, 0)`
   el.addEventListener('transitionend', done)
 }
 
 function afterEnter(el) {
-  debugger
   animate.show = false
   el.style.display = 'none'
 }
@@ -142,7 +142,7 @@ function removeTodo(e, i) {
 } */
 .flip-list-enter-active,
 .flip-list-leave-active {
-  transition: all .5s ease;
+  transition: all 0.5s ease;
 }
 .flip-list-enter-from,
 .flip-list-leave-to {
