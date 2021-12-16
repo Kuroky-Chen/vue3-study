@@ -1,6 +1,6 @@
 
 <template>
-	<h1>这是关于页面</h1>
+	<h1>about</h1>
 	<!-- <Rate @update-rate='update' :value='obj.count' theme='blue' /> -->
 	<Rate v-model="obj.count" theme='blue' />
 </template>
