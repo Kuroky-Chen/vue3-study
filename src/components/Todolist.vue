@@ -47,6 +47,11 @@ let animate = reactive({
   el: null
 })
 
+// 删除动画元素起始和最终位置和删除图标一起，在进入前改变删除动画元素位置
+// 通过getBoundingClientRect获取元素距离视口坐标, 因为删除图标在右上角，所以删除元素偏移位置从右上角开始算起，也就是window.innerWidth - rect.left得到从左向右剩余位置
+// 从右作为0点开始x就是负数，y不变
+// 删除元素通过transition来添加动画效果
+// 动画进入后偏移归零，这样就完成了鼠标删除数据位置到了删除图标位置的动画
 function beforeEnter(el) {
   let dom = animate.el
   let rect = dom.getBoundingClientRect()
@@ -55,12 +60,14 @@ function beforeEnter(el) {
   el.style.transform = `translate(-${x}px, ${y}px)`
 }
 
+// done 监听动画结束进行下一个事件，没有done无法触发@after-enter
 function enter(el, done) {
   document.body.offsetHeight
   el.style.transform = `translate(0, 0)`
   el.addEventListener('transitionend', done)
 }
 
+// 结束后隐藏动画元素
 function afterEnter(el) {
   animate.show = false
   el.style.display = 'none'
