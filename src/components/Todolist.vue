@@ -2,6 +2,7 @@
 <template>
   <!-- 清单代码 -->
   <div>
+    <span class="dustbin">🗑</span>
     <input type="text" v-model="title" @keydown.enter="addTodo" />
     <button v-if="active < all" @click="clear">清理</button>
     <ul v-if="todos.length">
@@ -27,7 +28,6 @@
     </div>
   </transition>
 
-  <span class="dustbin">🗑</span>
   <div class="animate-wrap">
     <transition @before-enter="beforeEnter" @enter='enter' @after-enter='afterEnter'>
       <div class="animate" v-show="animate.show">📋</div>
@@ -48,7 +48,6 @@ let animate = reactive({
 })
 
 function beforeEnter(el) {
-  debugger
   let dom = animate.el
   let rect = dom.getBoundingClientRect()
   let x = window.innerWidth - rect.left - 60
@@ -57,10 +56,8 @@ function beforeEnter(el) {
 }
 
 function enter(el, done) {
-  debugger
-  document.body.offsetHeight
-  el.style.transfrom = `translate(0, 0)`
-  el.addEventListener('transitioned', done)
+  el.style.transfrom = `translate(0px, 0px)`
+  el.addEventListener('transitionend', done)
 }
 
 function afterEnter(el) {
@@ -101,7 +98,6 @@ let allDone = computed({
 
 // 删除一行
 function removeTodo(e, i) {
-  debugger
   animate.el = e.target
   animate.show = true
   todos.value.splice(i, 1)
@@ -110,6 +106,16 @@ function removeTodo(e, i) {
 </script>
 
 <style>
+.remove-btn {
+  padding: 3px;
+  cursor: pointer;
+}
+.dustbin {
+  font-size: 20px;
+  position: fixed;
+  right: 10px;
+  top: 10px;
+}
 .info-wrapper {
   position: fixed;
   top: 20px;
@@ -131,12 +137,12 @@ function removeTodo(e, i) {
   opacity: 0;
   transform: translateY(-60px);
 }
-.flip-list-move {
+/* .flip-list-move {
   transition: transform 0.8s ease;
-}
+} */
 .flip-list-enter-active,
 .flip-list-leave-active {
-  transition: all 1s ease;
+  transition: all .5s ease;
 }
 .flip-list-enter-from,
 .flip-list-leave-to {
@@ -146,7 +152,7 @@ function removeTodo(e, i) {
 .animate-wrap .animate {
   position: fixed;
   right: 10px;
-  top: 10px;
+  top: 11px;
   z-index: 100;
   transition: all 0.5s linear;
 }
