@@ -1,8 +1,8 @@
 
 <template>
     <h1>home</h1>
-	<!-- <TodoList /> -->
-    <Count />
+	<TodoList />
+    <!-- <Count /> -->
 </template>
 
 <script setup>
