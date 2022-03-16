@@ -35,12 +35,17 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed, reactive } from "vue";
+
+interface Todo {
+  title: string,
+  done: boolean
+}
 
 // 清单代码
 let title = ref("");
-let todos = ref([{ title: '学习Vue', done: false }])
+let todos = ref<Todo[]>([{ title: '学习Vue', done: false }])
 let showModal = ref(false)
 let animate = reactive({
   show: false,
@@ -119,7 +124,24 @@ function removeTodo(e, i) {
 
 </script>
 
-<style>
+<style lang="scss" scoped>
+$padding: 10px;
+$white: #fff;
+ul {
+  width: 500px;
+  margin: 0 auto;
+  padding: 0;
+  li {
+    &:hover {
+      cursor: pointer;
+    }
+    list-style-type: none;
+    margin-bottom: $padding;
+    padding: $padding;
+    background: $white;
+    box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.1);
+  }
+}
 .remove-btn {
   padding: 3px;
   cursor: pointer;
