@@ -1,6 +1,7 @@
 
 <template>
   <el-container>
+    <div id="teleport-wrap"></div>
     <el-header>
       <el-menu
         :default-active="1"
@@ -48,7 +49,42 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
+// function fib(n) {
+//   if (n <= 1) return 1
+//   return fib(n - 1) + fib(n - 2)
+// }
+function fib(n) {
+  let arr = [1, 1]
+  let i = 2
+  while (i <= n) {
+    arr[i] = arr[i - 1] + arr[i - 2]
+    i++
+  }
+  return arr[n]
+}
+let count = ref(fib(38))
+console.log(count)
 
+
+
+let timing = window.performance && window.performance.timing
+console.log(timing)
+
+let navigation = window.performance && window.performance.navigation
+console.log(navigation)
+
+let dns = timing.domainLookupEnd - timing.domainLookupStart
+console.log(`DNS 解析：${dns}`)
+
+let network = timing.responseEnd - timing.navigationStart
+console.log(`总体网络交互耗时：${network}`)
+
+let processing = (timing.domComplete || timing.domLoading) - timing.domLoading
+console.log(`渲染处理：${processing}`)
+
+let active = timing.domInteractive - timing.navigationStart
+console.log(`可交互：${active}`)
 </script>
 <style>
 .el-header,

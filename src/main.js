@@ -13,4 +13,10 @@ import 'element3/lib/theme-chalk/index.css'
 
 const app = createApp(App)
 
+app.directive('focus', {
+  mounted(el) {
+    el.focus()
+  }
+})
+
 app.use(router).use(store).use(Element3).mount('#app')

@@ -33,6 +33,8 @@
       <div class="animate" v-show="animate.show">📋</div>
     </transition>
   </div>
+
+  <teleport to="#teleport-wrap">我是teleport</teleport>我是teleport
 </template>
 
 <script setup lang="ts">
@@ -42,6 +44,17 @@ interface Todo {
   title: string,
   done: boolean
 }
+
+let props = defineProps({
+  data: {
+    type: Object,
+    default() {
+      return {}
+    }
+  }
+})
+
+console.log('prop', props.data)
 
 // 清单代码
 let title = ref("");
