@@ -38,12 +38,23 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, reactive } from "vue";
+import { ref, computed, reactive, onMounted } from "vue";
+import bus from './bus.js'
 
 interface Todo {
   title: string,
   done: boolean
 }
+// onMounted(() => {
+//   debugger
+//   bus.on('cc', testMitt)
+// })
+
+function testMitt(val) {
+  debugger
+  alert(val)
+}
+
 
 let props = defineProps({
   data: {
@@ -140,14 +151,17 @@ function removeTodo(e, i) {
 <style lang="scss" scoped>
 $padding: 10px;
 $white: #fff;
+
 ul {
   width: 500px;
   margin: 0 auto;
   padding: 0;
+
   li {
     &:hover {
       cursor: pointer;
     }
+
     list-style-type: none;
     margin-bottom: $padding;
     padding: $padding;
@@ -155,16 +169,19 @@ ul {
     box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.1);
   }
 }
+
 .remove-btn {
   padding: 3px;
   cursor: pointer;
 }
+
 .dustbin {
   font-size: 20px;
   position: fixed;
   right: 10px;
   top: 10px;
 }
+
 .info-wrapper {
   position: fixed;
   top: 20px;
@@ -172,20 +189,24 @@ ul {
   left: 50%;
   margin-left: -100px;
 }
+
 .info {
   padding: 20px;
   color: white;
   background: #d88986;
 }
+
 .modal-enter-active,
 .modal-leave-active {
   transition: all 0.3s ease;
 }
+
 .modal-enter-from,
 .modal-leave-to {
   opacity: 0;
   transform: translateY(-60px);
 }
+
 /* .flip-list-move {
   transition: transform 0.8s ease;
 } */
@@ -193,11 +214,13 @@ ul {
 .flip-list-leave-active {
   transition: all 0.5s ease;
 }
+
 .flip-list-enter-from,
 .flip-list-leave-to {
   opacity: 0;
   transform: translateX(30px);
 }
+
 .animate-wrap .animate {
   position: fixed;
   right: 10px;

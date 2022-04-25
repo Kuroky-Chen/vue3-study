@@ -1,4 +1,5 @@
 import { defineComponent, ref } from "vue";
+import mitt from "mitt";
 
 export default defineComponent({
   setup(props) {
@@ -7,12 +8,14 @@ export default defineComponent({
       { title: "学习 Vue 3", done: true },
       { title: "睡觉", done: false },
     ]);
+
     function addTodo() {
       todos.value.push({
         title: title.value,
       });
       title.value = "";
     }
+
     return () => (
       <div>
         <input type="text" vModel={title.value} />

@@ -10,7 +10,21 @@
 </template>
 
 <script setup>
-import { defineProps, computed, ref, defineEmits } from 'vue'
+import { defineProps, computed, ref, defineEmits, onMounted } from 'vue'
+import bus from './bus.js'
+
+onMounted(() => {
+  debugger
+  // bus.all.clear()
+  bus.off('cc')
+  bus.on('cc', testMitt)
+})
+
+function testMitt(val) {
+  debugger
+  alert(val)
+}
+
 let props = defineProps({
   // value: Number,
   modelValue: Number,
@@ -48,7 +62,8 @@ function onRate(num) {
   position: relative;
   display: inline-block;
 }
-.rate > span.hollow {
+
+.rate>span.hollow {
   position: absolute;
   display: inline-block;
   top: 0;
